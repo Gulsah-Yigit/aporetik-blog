@@ -3,6 +3,7 @@ import BlogCarousel from "@/Components/BlogCarousel";
 import BlogList from "@/Components/BlogList";
 import Footer from "@/Components/Footer";
 import Header from "@/Components/Header";
+import TopNavbar from "@/Components/TopNavbar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -11,7 +12,8 @@ export default function Home() {
     <>
       <ToastContainer theme="dark" />
       <Header />
-      <BlogCarousel />
+      <TopNavbar />
+      {/* <BlogCarousel /> */}
       <BlogList />
       <Footer />
     </>

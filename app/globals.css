@@ -1,15 +1,17 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@plugin "daisyui";
 
-body {
-  @apply relative; /* Tailwind ile body’ye relative ekleyelim */
-  /* background: #f5e1cc; */
-  background: #fff5cf;
-}
+/* Tailwind v4 custom variant (senin kodundan) */
+@custom-variant dark (&:is(.dark *));
+
+/* ---------------------------
+   KULLANICI YARDIMCI SINIFLARI
+   --------------------------- */
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
-
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -18,30 +20,242 @@ body {
 .blog-content {
   padding: 36px 0;
 }
-
 .blog-content b {
   margin-bottom: 10px;
   font-weight: 500;
 }
-
 .blog-content p {
   margin-bottom: 10px;
 }
-
 .blog-content h1 {
   margin-bottom: 10px;
   font-weight: 600;
   font-size: 26px;
 }
-
 .blog-content h2 {
   margin-bottom: 10px;
   font-weight: 500;
   font-size: 22px;
 }
-
 .blog-content h3 {
   margin-bottom: 10px;
   font-weight: 500;
   font-size: 18px;
+}
+
+/* ---------------------------
+   THEME MAP (senin yapın)
+   --------------------------- */
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+/* ---------------------------
+   IŞIK TEMA (senin değişkenlerin)
+   + Wix-vari ek değişkenler
+   --------------------------- */
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+
+  /* ---- Wix-vari ARKA PLAN & PAPER ---- */
+  --page-bg: #f8f9fb; /* saf beyaz yerine yumuşak off-white */
+  --page-noise: rgba(0, 0, 0, 0.015); /* çok ince doku noktaları */
+  --page-grid-size: 24px 24px; /* doku aralığı: büyük = nazik görünüm */
+
+  --paper-bg: rgba(255, 255, 255, 0.92); /* transparan beyaz */
+  --paper-border: rgba(0, 0, 0, 0.06);
+  --paper-shadow: 0 10px 25px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
+
+  /* Bölüm geçiş yumuşatma */
+  --section-fade: rgba(255, 255, 255, 0.6);
+}
+
+/* ---------------------------
+   KARANLIK TEMA (senin değişkenlerin)
+   + Wix-vari karşılıklar
+   --------------------------- */
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+
+  /* ---- Dark modu karşılıkları ---- */
+  --page-bg: oklch(0.19 0.02 260); /* koyu ama “sert” değil */
+  --page-noise: rgba(255, 255, 255, 0.02);
+  --page-grid-size: 24px 24px;
+
+  --paper-bg: rgba(255, 255, 255, 0.06); /* koyuda cam hissi */
+  --paper-border: rgba(255, 255, 255, 0.08);
+  --paper-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+
+  --section-fade: rgba(0, 0, 0, 0.45);
+}
+
+/* ---------------------------
+   BASE LAYER (Tailwind ile)
+   --------------------------- */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  /* Not: bg-background kullanmıyoruz; kendi arka planımızı tanımlıyoruz. */
+  body {
+    @apply text-foreground relative min-h-screen;
+
+    /* Sayfa arka planı: off-white + çok ince “radial noise grid” */
+    background-color: var(--page-bg);
+    background-image: radial-gradient(var(--page-noise) 1px, transparent 1px);
+    background-size: var(--page-grid-size);
+    background-attachment: fixed; /* scrolda parazit etmesin, hafif cam efekti hoş kalır */
+  }
+}
+
+/* ---------------------------
+   PAPER / KART YÜZEYİ (hazır sınıf)
+   Kullanım: <div class="paper">...</div>
+   --------------------------- */
+.paper {
+  background: var(--paper-bg);
+  border: 1px solid var(--paper-border);
+  box-shadow: var(--paper-shadow);
+  border-radius: 1rem; /* 16px */
+  backdrop-filter: blur(2px); /* alt doku/gradienti hafif yumuşatır */
+}
+
+.paper-soft {
+  background: #fff; /* opak beyaz */
+  border: 1px solid rgba(0, 0, 0, 0.05); /* çok hafif kenar */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04); /* küçük ve silik gölge */
+  border-radius: 1rem;
+}
+.paper-soft:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+}
+
+/* Daha sıkı kenar için alternatif (opsiyonel) */
+/* .paper-tight { border-radius: 0.75rem; } */
+
+/* ---------------------------
+   BÖLÜM GEÇİŞ GRADYANLARI
+   Kullanım:
+   <section class="section-fade">
+     <div class="paper">...</div>
+   </section>
+   --------------------------- */
+.section-fade {
+  position: relative;
+  padding-block: 64px;
+}
+
+.section-fade::before,
+.section-fade::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  height: 48px;
+  pointer-events: none;
+}
+
+.section-fade::before {
+  top: -8px;
+  background: linear-gradient(to bottom, var(--section-fade), transparent);
+}
+
+.section-fade::after {
+  bottom: -8px;
+  background: linear-gradient(to top, var(--section-fade), transparent);
 }

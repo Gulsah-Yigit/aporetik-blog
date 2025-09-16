@@ -1,80 +1,67 @@
-import { blog_data } from "@/Assets/assets";
-import React, { useEffect, useState } from "react";
-import BlogItem from "./BlogItem";
-import axios from "axios";
+// components/BlogList.jsx
+"use client";
 
-const BlogList = () => {
-  const [menu, setMenu] = useState("All");
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import BlogItem from "./BlogItem";
+import SidebarAbout from "./SidebarAbout";
+
+const FILTERS = ["Hepsi", "Yolda", "Uzun Okuma"];
+// istediğim kategoriler: Açmazlar – Kültür Notları – Sayfalar – Perdeden – Yolda – Uzun Okuma
+
+export default function BlogList() {
+  const [menu, setMenu] = useState("Hepsi");
   const [blogs, setBlogs] = useState([]);
 
-  const fetchBlogs = async () => {
-    const response = await axios.get("/api/blog");
-    setBlogs(response.data.blogs);
-    console.log(response.data.blogs);
-  };
-
   useEffect(() => {
-    fetchBlogs();
+    (async () => {
+      const res = await axios.get("/api/blog");
+      setBlogs(res.data.blogs || []);
+    })();
   }, []);
 
+  const filtered = blogs.filter((b) =>
+    menu === "Hepsi" ? true : b.category === menu
+  );
+
   return (
-    <div>
-      <div className="flex justify-center gap-6 my-10">
-        <button
-          onClick={() => setMenu("All")}
-          className={
-            menu === "All" ? "bg-black text-white py-1 px-4 rounded-sm" : ""
-          }
-        >
-          All
-        </button>
-        <button
-          onClick={() => setMenu("Technology")}
-          className={
-            menu === "Technology"
-              ? "bg-black text-white py-1 px-4 rounded-sm"
-              : ""
-          }
-        >
-          Technology
-        </button>
-        <button
-          onClick={() => setMenu("Startup")}
-          className={
-            menu === "Startup" ? "bg-black text-white py-1 px-4 rounded-sm" : ""
-          }
-        >
-          Startup
-        </button>
-        <button
-          onClick={() => setMenu("Lifestyle")}
-          className={
-            menu === "Lifestyle"
-              ? "bg-black text-white py-1 px-4 rounded-sm"
-              : ""
-          }
-        >
-          Lifestyle
-        </button>
-      </div>
-      <div className="flex flex-wrap justify-around gap-2 gap-y-10 mb-16 xl:mx-24">
-        {blogs
-          .filter((item) => (menu === "All" ? true : item.category === menu))
-          .map((item, index) => {
-            return (
+    <section className="section-fade">
+      <div className="mx-auto max-w-6xl px-4 lg:px-0 grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_360px] gap-x-12 gap-y-12">
+        {/* SOL SÜTUN: Filtre + Liste */}
+        <div>
+          {/* Filtre menüsü */}
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 my-6">
+            {FILTERS.map((f) => (
+              <button
+                key={f}
+                onClick={() => setMenu(f)}
+                className={`px-4 py-1.5 rounded-lg border border-black/10 transition-colors ${
+                  menu === f ? "bg-black text-white" : "hover:bg-black/5"
+                }`}
+              >
+                {f}
+              </button>
+            ))}
+          </div>
+
+          {/* Kartlar */}
+          <div className="space-y-8 mb-16">
+            {filtered.map((item) => (
               <BlogItem
-                key={index}
+                key={item._id}
                 id={item._id}
                 image={item.image}
                 title={item.title}
                 description={item.description}
                 category={item.category}
               />
-            );
-          })}
-      </div>
-    </div>
-  );
-};
+            ))}
+          </div>
+        </div>
 
-export default BlogList;
+        {/* SAĞ SÜTUN: Hakkımda */}
+        <SidebarAbout />
+      </div>
+    </section>
+  );
+}

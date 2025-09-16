@@ -11,7 +11,7 @@ const page = () => {
   const [data, setData] = useState({
     title: "",
     description: "",
-    category: "Startup",
+    category: "Yolda",
     author: "Gülşah Yiğit",
     authorImg: "/author_img.png",
   });
@@ -40,7 +40,7 @@ const page = () => {
       setData({
         title: "",
         description: "",
-        category: "Startup",
+        category: "Yolda",
         author: "Gülşah Yiğit",
         authorImg: "/author_img.png",
       });
@@ -99,9 +99,8 @@ const page = () => {
           value={data.category}
           className="w-40 mt-4 px-4 py-3 border text-gray-500"
         >
-          <option value="Startup">Startup</option>
-          <option value="Technology">Technology</option>
-          <option value="Lifestyle">Lifestyle</option>
+          <option value="Yolda">Yolda</option>
+          <option value="Uzun Okuma">Uzun Okuma</option>
         </select>
         <br />
         <button
