@@ -9,6 +9,13 @@
    KULLANICI YARDIMCI SINIFLARI
    --------------------------- */
 
+.section-fade::before,
+.section-fade::after {
+  background: none !important;
+  content: none !important;
+  height: 0 !important;
+}
+
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }

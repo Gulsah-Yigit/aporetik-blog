@@ -75,13 +75,13 @@ const Header = () => {
   };
 
   return (
-    <div className="py-1 px-5 md:px-12 lg:px-28">
+    <div className="pt-0 pb-3 px-5 md:px-12 lg:px-28">
       <div className="flex justify-between items-center">
         <Image
           src={assets.logo}
           width={120}
           alt=""
-          className="w-[130px] sm:w-auto "
+          className="w-[130px] sm:w-auto"
         />
         <button
           onClick={handleRandomBlog}
@@ -92,20 +92,19 @@ const Header = () => {
           <Image src={assets.arrow} alt="ok" />
         </button>
       </div>
-      <div className="text-center">
+
+      {/* ↓ APORETİK başlığını yukarı taşıyan kısım */}
+      <div className="text-center -mt-4 sm:-mt-6 md:-mt-10 lg:-mt-12">
         <h1
           className={`${playfair.className}
-      font-black
-      inline-flex items-baseline gap-2
-      whitespace-nowrap
-      text-[clamp(3.5rem,9vw,10rem)]
-      leading-[0.95] tracking-[0.04em] text-black`}
+          font-black inline-flex items-baseline gap-2 whitespace-nowrap
+          text-[clamp(3.5rem,9vw,10rem)] leading-[0.95] tracking-[0.04em] text-[#444444]`}
         >
           APORETİK
           <span
             className={`${inter.className}
-        align-baseline text-[10px] sm:text-xs md:text-sm
-        font-normal tracking-[0.2em] text-black/60`}
+            align-baseline text-[10px] sm:text-xs md:text-sm
+            font-normal tracking-[0.2em] text-black/60`}
           >
             bi' blog
           </span>
