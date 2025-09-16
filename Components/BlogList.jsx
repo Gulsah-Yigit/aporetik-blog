@@ -54,6 +54,7 @@ export default function BlogList() {
                 title={item.title}
                 description={item.description}
                 category={item.category}
+                tags={item.tags} // ekledim yeni
               />
             ))}
           </div>

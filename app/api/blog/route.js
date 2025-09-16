@@ -34,6 +34,16 @@ export async function POST(request) {
   await writeFile(path, buffer);
   const imgUrl = `/${timestamp}_${image.name}`;
 
+  // 👇 YENİ: tags string → array ekledim1
+  const rawTags = formData.get("tags") || "";
+  const tagsArray =
+    typeof rawTags === "string"
+      ? rawTags
+          .split(",")
+          .map((t) => t.trim())
+          .filter(Boolean)
+      : [];
+
   const blogData = {
     title: `${formData.get("title")}`,
     description: `${formData.get("description")}`,
@@ -41,6 +51,7 @@ export async function POST(request) {
     author: `${formData.get("author")}`,
     image: `${imgUrl}`,
     authorImg: `${formData.get("authorImg")}`,
+    tags: tagsArray, // 👈 YENİ
   };
 
   await BlogModel.create(blogData);

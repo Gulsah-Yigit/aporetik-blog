@@ -30,6 +30,7 @@ const BlogItem = ({
   views,
   comments,
   likes,
+  tags = [],
 }) => {
   const prettyDate = date ? formatDate(date) : null;
 
@@ -86,8 +87,22 @@ const BlogItem = ({
 
           <hr className="border-t border-black/10 my-2" />
 
+          {/* etiketler */}
+          {Array.isArray(tags) && tags.length > 0 && (
+            <div className="mt-auto pt-2 flex flex-wrap gap-2">
+              {tags.map((tag, i) => (
+                <span
+                  key={i}
+                  className="px-2 py-1 text-xs bg-neutral-100 border border-black/10 rounded"
+                >
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          )}
+
           {/* alt meta satırı */}
-          <div className="mt-2 flex items-center text-xs text-neutral-500">
+          {/* <div className="mt-2 flex items-center text-xs text-neutral-500">
             <div className="flex items-center gap-4">
               <span>
                 {typeof views === "number" ? `${views} views` : "0 views"}
@@ -112,7 +127,7 @@ const BlogItem = ({
               </svg>
               <span>{typeof likes === "number" ? likes : 0}</span>
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </article>

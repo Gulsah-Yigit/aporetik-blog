@@ -14,6 +14,7 @@ const page = () => {
     category: "Yolda",
     author: "Gülşah Yiğit",
     authorImg: "/author_img.png",
+    tags: "", //dataya eklendi. 1
   });
 
   const onChangeHandler = (event) => {
@@ -32,6 +33,7 @@ const page = () => {
     formData.append("author", data.author);
     formData.append("authorImg", data.authorImg);
     formData.append("image", image);
+    formData.append("tags", data.tags); // 👈 eksik olan buydu
 
     const response = await axios.post("/api/blog", formData);
     if (response.data.success) {
@@ -43,6 +45,7 @@ const page = () => {
         category: "Yolda",
         author: "Gülşah Yiğit",
         authorImg: "/author_img.png",
+        tags: "", // setdataya eklendi 2
       });
     } else {
       toast.error("Error");
@@ -102,6 +105,18 @@ const page = () => {
           <option value="Yolda">Yolda</option>
           <option value="Uzun Okuma">Uzun Okuma</option>
         </select>
+
+        {/* Tags eklendi 3*/}
+        <p className="text-xl mt-4">Tags (virgülle ayır)</p>
+        <input
+          name="tags"
+          onChange={onChangeHandler}
+          value={data.tags}
+          className="w-full sm:w-[500px] mt-4 px-4 py-3 border"
+          type="text"
+          placeholder="örn: kedi, rüya, psikoloji"
+        />
+
         <br />
         <button
           className="mt-5 ml-4 w-[90px] h-10 bg-black text-white"
