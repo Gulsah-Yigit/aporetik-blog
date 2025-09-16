@@ -9,10 +9,7 @@ const Footer = () => {
       <p className="text-sm text-[#2a2a2a]">
         All right reserved. Copyright @aporetik
       </p>
-      <div className="flex">
-        <Image src={assets.email_icon} alt="" width={30} />
-        aporetik.blog@gmail.com
-      </div>
+      <div className="flex">aporetik.blog@gmail.com</div>
     </div>
   );
 };
