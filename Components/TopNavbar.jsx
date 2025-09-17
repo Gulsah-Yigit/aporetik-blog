@@ -20,7 +20,7 @@ const nunito = Nunito({
 const NAV_ITEMS = [
   { label: "Anasayfa", href: "/" },
   { label: "Yazılar", href: "/content" },
-  { label: "İletişim", href: "/iletisim" },
+  { label: "İletişim", href: "/contact" },
 ];
 
 export default function TopNavbar() {
