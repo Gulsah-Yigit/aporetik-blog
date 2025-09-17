@@ -13,9 +13,6 @@ const anton = Anton({
 export const metadata = {
   title: "Aporetik",
   description: "bi' blog",
-  icons: {
-    icon: "/icon.png",
-  },
 };
 
 export default function RootLayout({ children }) {
