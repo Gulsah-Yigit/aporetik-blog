@@ -1,5 +1,5 @@
 "use client";
-import BlogCarousel from "@/Components/BlogCarousel";
+
 import BlogList from "@/Components/BlogList";
 import FeaturedGridFetcher from "@/Components/FeaturedGridFetcher";
 import Footer from "@/Components/Footer";
@@ -15,8 +15,6 @@ export default function Home() {
       <Header />
       <TopNavbar />
       <FeaturedGridFetcher />
-
-      {/* <BlogCarousel /> */}
       <BlogList />
       <Footer />
     </>
