@@ -57,7 +57,7 @@ const page = ({ params }) => {
             <span>
               {formatDate(data?.createdAt || data?.date) || "—"}
               {" · "}
-              {calcReadingTime(data?.description)} min read
+              {calcReadingTime(data?.description)} dk okuma
             </span>
           </div>
 
