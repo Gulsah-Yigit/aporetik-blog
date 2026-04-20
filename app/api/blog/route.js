@@ -36,6 +36,23 @@ export async function POST(request) {
   try {
     const formData = await request.formData();
 
+    const image = formData.get("image");
+
+    if (!image || typeof image === "string") {
+      return NextResponse.json(
+        { success: false, msg: "Geçerli bir görsel seçin" },
+        { status: 400 }
+      );
+    }
+
+    const bytes = await image.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+
+    const fileName = `${Date.now()}_${image.name.replaceAll(" ", "_")}`;
+    const filePath = path.join(process.cwd(), "public", fileName);
+
+    await writeFile(filePath, buffer);
+
     const rawTags = formData.get("tags") || "";
     const tagsArray =
       typeof rawTags === "string"
@@ -45,23 +62,12 @@ export async function POST(request) {
             .filter(Boolean)
         : [];
 
-        //new
-        const image = formData.get("image");
-
-const bytes = await image.arrayBuffer();
-const buffer = Buffer.from(bytes);
-
-const fileName = `${Date.now()}_${image.name.replaceAll(" ", "_")}`;
-const filePath = path.join(process.cwd(), "public", fileName);
-
-await writeFile(filePath, buffer);
-
     const blogData = {
       title: `${formData.get("title")}`,
       description: `${formData.get("description")}`,
       category: `${formData.get("category")}`,
       author: `${formData.get("author")}`,
-       image: `${formData.get("image")}`,
+      image: `/${fileName}`,
       authorImg: `${formData.get("authorImg")}`,
       tags: tagsArray,
     };
@@ -77,8 +83,6 @@ await writeFile(filePath, buffer);
     );
   }
 }
-
-
 
 // Creating API Endpoint to Delete Blog
 export async function DELETE(request) {
