@@ -4,8 +4,6 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 
 const Page = () => {
-  const [image, setImage] = useState(false);
-
   const [data, setData] = useState({
     title: "",
     description: "",
@@ -13,6 +11,7 @@ const Page = () => {
     author: "Gülşah Yiğit",
     authorImg: "/author_img.png",
     tags: "",
+    image: "",
   });
 
   const onChangeHandler = (event) => {
@@ -23,8 +22,8 @@ const Page = () => {
   const onSubmitHandler = async (e) => {
     e.preventDefault();
 
-    if (!image) {
-      toast.error("Lütfen görsel seçin");
+    if (!data.image.trim()) {
+      toast.error("Lütfen görsel URL girin");
       return;
     }
 
@@ -35,14 +34,13 @@ const Page = () => {
       formData.append("category", data.category);
       formData.append("author", data.author);
       formData.append("authorImg", data.authorImg);
-      formData.append("image", image);
+      formData.append("image", data.image);
       formData.append("tags", data.tags);
 
       const response = await axios.post("/api/blog", formData);
 
       if (response.data.success) {
         toast.success(response.data.msg);
-
         setData({
           title: "",
           description: "",
@@ -50,9 +48,8 @@ const Page = () => {
           author: "Gülşah Yiğit",
           authorImg: "/author_img.png",
           tags: "",
+          image: "",
         });
-
-        setImage(false);
       } else {
         toast.error(response.data.msg || "Error");
       }
@@ -64,28 +61,24 @@ const Page = () => {
 
   return (
     <form onSubmit={onSubmitHandler} className="pt-5 px-5 sm:pt-12 sm:pl-16">
-      <p className="text-xl">Thumbnail</p>
+      <p className="text-xl">Thumbnail URL</p>
+      <input
+        name="image"
+        onChange={onChangeHandler}
+        value={data.image}
+        className="w-full sm:w-[500px] mt-4 px-4 py-3 border"
+        type="text"
+        placeholder="https://..."
+        required
+      />
 
-      <label htmlFor="image">
-        <input
-          onChange={(e) => setImage(e.target.files[0])}
-          type="file"
-          id="image"
-          hidden
-          required
+      {data.image && (
+        <img
+          src={data.image}
+          alt="Preview"
+          className="mt-4 w-[140px] h-auto border"
         />
-        <div className="mt-4 w-[140px] h-[100px] border flex items-center justify-center cursor-pointer overflow-hidden">
-          {image ? (
-            <img
-              src={URL.createObjectURL(image)}
-              alt="preview"
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <span className="text-sm text-gray-500">Görsel Seç</span>
-          )}
-        </div>
-      </label>
+      )}
 
       <p className="text-xl mt-4">Blog title</p>
       <input

@@ -1,8 +1,6 @@
 import { ConnectDB } from "@/lib/config/db";
 import BlogModel from "@/lib/models/BlogModel";
 import { NextResponse } from "next/server";
-import { writeFile } from "fs/promises";
-import path from "path";
 
 const loadDB = async () => {
   await ConnectDB();
@@ -36,23 +34,6 @@ export async function POST(request) {
   try {
     const formData = await request.formData();
 
-    const image = formData.get("image");
-
-    if (!image || typeof image === "string") {
-      return NextResponse.json(
-        { success: false, msg: "Geçerli bir görsel seçin" },
-        { status: 400 }
-      );
-    }
-
-    const bytes = await image.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
-    const fileName = `${Date.now()}_${image.name.replaceAll(" ", "_")}`;
-    const filePath = path.join(process.cwd(), "public", fileName);
-
-    await writeFile(filePath, buffer);
-
     const rawTags = formData.get("tags") || "";
     const tagsArray =
       typeof rawTags === "string"
@@ -67,7 +48,7 @@ export async function POST(request) {
       description: `${formData.get("description")}`,
       category: `${formData.get("category")}`,
       author: `${formData.get("author")}`,
-      image: `/${fileName}`,
+      image: `${formData.get("image")}`,
       authorImg: `${formData.get("authorImg")}`,
       tags: tagsArray,
     };
