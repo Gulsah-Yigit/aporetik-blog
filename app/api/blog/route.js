@@ -61,7 +61,7 @@ await writeFile(filePath, buffer);
       description: `${formData.get("description")}`,
       category: `${formData.get("category")}`,
       author: `${formData.get("author")}`,
-      image: `/${fileName}`,
+       image: `${formData.get("image")}`,
       authorImg: `${formData.get("authorImg")}`,
       tags: tagsArray,
     };
