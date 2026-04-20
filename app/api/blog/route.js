@@ -32,53 +32,6 @@ export async function GET(request) {
 }
 
 // API Endpoint For Uploading Blogs
-// export async function POST(request) {
-//   try {
-//     const formData = await request.formData();
-
-//     const rawTags = formData.get("tags") || "";
-//     const tagsArray =
-//       typeof rawTags === "string"
-//         ? rawTags
-//             .split(",")
-//             .map((t) => t.trim())
-//             .filter(Boolean)
-//         : [];
-
-//         //new
-//         const image = formData.get("image");
-
-// const bytes = await image.arrayBuffer();
-// const buffer = Buffer.from(bytes);
-
-// const fileName = `${Date.now()}_${image.name.replaceAll(" ", "_")}`;
-// const filePath = path.join(process.cwd(), "public", fileName);
-
-// await writeFile(filePath, buffer);
-
-//     const blogData = {
-//       title: `${formData.get("title")}`,
-//       description: `${formData.get("description")}`,
-//       category: `${formData.get("category")}`,
-//       author: `${formData.get("author")}`,
-//       image: `/${fileName}`,
-//       authorImg: `${formData.get("authorImg")}`,
-//       tags: tagsArray,
-//     };
-
-//     await BlogModel.create(blogData);
-
-//     return NextResponse.json({ success: true, msg: "Blog Added" });
-//   } catch (error) {
-//     console.error("POST /api/blog error:", error);
-//     return NextResponse.json(
-//       { success: false, msg: "Blog eklenemedi" },
-//       { status: 500 }
-//     );
-//   }
-// }
-
-// new post
 export async function POST(request) {
   try {
     const formData = await request.formData();
@@ -92,22 +45,16 @@ export async function POST(request) {
             .filter(Boolean)
         : [];
 
-    const image = formData.get("image");
+        //new
+        const image = formData.get("image");
 
-    if (!image || typeof image === "string") {
-      return NextResponse.json(
-        { success: false, msg: "Geçerli bir görsel seçilmedi" },
-        { status: 400 }
-      );
-    }
+const bytes = await image.arrayBuffer();
+const buffer = Buffer.from(bytes);
 
-    const bytes = await image.arrayBuffer();
-    const buffer = Buffer.from(bytes);
+const fileName = `${Date.now()}_${image.name.replaceAll(" ", "_")}`;
+const filePath = path.join(process.cwd(), "public", fileName);
 
-    const fileName = `${Date.now()}_${image.name.replaceAll(" ", "_")}`;
-    const filePath = path.join(process.cwd(), "public", fileName);
-
-    await writeFile(filePath, buffer);
+await writeFile(filePath, buffer);
 
     const blogData = {
       title: `${formData.get("title")}`,
@@ -125,11 +72,13 @@ export async function POST(request) {
   } catch (error) {
     console.error("POST /api/blog error:", error);
     return NextResponse.json(
-      { success: false, msg: error.message || "Blog eklenemedi" },
+      { success: false, msg: "Blog eklenemedi" },
       { status: 500 }
     );
   }
 }
+
+
 
 // Creating API Endpoint to Delete Blog
 export async function DELETE(request) {
