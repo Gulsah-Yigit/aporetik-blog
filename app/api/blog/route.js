@@ -1,70 +1,148 @@
 import { ConnectDB } from "@/lib/config/db";
 import BlogModel from "@/lib/models/BlogModel";
-const { NextResponse } = require("next/server");
+import { NextResponse } from "next/server";
 import { writeFile } from "fs/promises";
-const fs = require("fs");
+import path from "path";
 
-const LoadDB = async () => {
+const loadDB = async () => {
   await ConnectDB();
 };
 
-LoadDB();
+loadDB();
 
 // API Endpoint to get all blogs
 export async function GET(request) {
-  const blogId = request.nextUrl.searchParams.get("id");
-  if (blogId) {
-    const blog = await BlogModel.findById(blogId);
-    return NextResponse.json(blog);
-  } else {
-    const blogs = await BlogModel.find({});
-    return NextResponse.json({ blogs });
+  try {
+    const blogId = request.nextUrl.searchParams.get("id");
+
+    if (blogId) {
+      const blog = await BlogModel.findById(blogId);
+      return NextResponse.json(blog);
+    } else {
+      const blogs = await BlogModel.find({});
+      return NextResponse.json({ blogs });
+    }
+  } catch (error) {
+    console.error("GET /api/blog error:", error);
+    return NextResponse.json(
+      { success: false, msg: "Bloglar alınamadı" },
+      { status: 500 }
+    );
   }
 }
 
 // API Endpoint For Uploading Blogs
+// export async function POST(request) {
+//   try {
+//     const formData = await request.formData();
+
+//     const rawTags = formData.get("tags") || "";
+//     const tagsArray =
+//       typeof rawTags === "string"
+//         ? rawTags
+//             .split(",")
+//             .map((t) => t.trim())
+//             .filter(Boolean)
+//         : [];
+
+//         //new
+//         const image = formData.get("image");
+
+// const bytes = await image.arrayBuffer();
+// const buffer = Buffer.from(bytes);
+
+// const fileName = `${Date.now()}_${image.name.replaceAll(" ", "_")}`;
+// const filePath = path.join(process.cwd(), "public", fileName);
+
+// await writeFile(filePath, buffer);
+
+//     const blogData = {
+//       title: `${formData.get("title")}`,
+//       description: `${formData.get("description")}`,
+//       category: `${formData.get("category")}`,
+//       author: `${formData.get("author")}`,
+//       image: `/${fileName}`,
+//       authorImg: `${formData.get("authorImg")}`,
+//       tags: tagsArray,
+//     };
+
+//     await BlogModel.create(blogData);
+
+//     return NextResponse.json({ success: true, msg: "Blog Added" });
+//   } catch (error) {
+//     console.error("POST /api/blog error:", error);
+//     return NextResponse.json(
+//       { success: false, msg: "Blog eklenemedi" },
+//       { status: 500 }
+//     );
+//   }
+// }
+
+// new post
 export async function POST(request) {
-  const formData = await request.formData();
-  const timestamp = Date.now();
+  try {
+    const formData = await request.formData();
 
-  const image = formData.get("image");
-  const imageByteData = await image.arrayBuffer();
-  const buffer = Buffer.from(imageByteData);
-  const path = `./public/${timestamp}_${image.name}`;
-  await writeFile(path, buffer);
-  const imgUrl = `/${timestamp}_${image.name}`;
+    const rawTags = formData.get("tags") || "";
+    const tagsArray =
+      typeof rawTags === "string"
+        ? rawTags
+            .split(",")
+            .map((t) => t.trim())
+            .filter(Boolean)
+        : [];
 
-  // 👇 YENİ: tags string → array ekledim1
-  const rawTags = formData.get("tags") || "";
-  const tagsArray =
-    typeof rawTags === "string"
-      ? rawTags
-          .split(",")
-          .map((t) => t.trim())
-          .filter(Boolean)
-      : [];
+    const image = formData.get("image");
 
-  const blogData = {
-    title: `${formData.get("title")}`,
-    description: `${formData.get("description")}`,
-    category: `${formData.get("category")}`,
-    author: `${formData.get("author")}`,
-    image: `${imgUrl}`,
-    authorImg: `${formData.get("authorImg")}`,
-    tags: tagsArray, // 👈 YENİ
-  };
+    if (!image || typeof image === "string") {
+      return NextResponse.json(
+        { success: false, msg: "Geçerli bir görsel seçilmedi" },
+        { status: 400 }
+      );
+    }
 
-  await BlogModel.create(blogData);
-  console.log("Blog Saved");
+    const bytes = await image.arrayBuffer();
+    const buffer = Buffer.from(bytes);
 
-  return NextResponse.json({ success: true, msg: "Blog Added" });
+    const fileName = `${Date.now()}_${image.name.replaceAll(" ", "_")}`;
+    const filePath = path.join(process.cwd(), "public", fileName);
+
+    await writeFile(filePath, buffer);
+
+    const blogData = {
+      title: `${formData.get("title")}`,
+      description: `${formData.get("description")}`,
+      category: `${formData.get("category")}`,
+      author: `${formData.get("author")}`,
+      image: `/${fileName}`,
+      authorImg: `${formData.get("authorImg")}`,
+      tags: tagsArray,
+    };
+
+    await BlogModel.create(blogData);
+
+    return NextResponse.json({ success: true, msg: "Blog Added" });
+  } catch (error) {
+    console.error("POST /api/blog error:", error);
+    return NextResponse.json(
+      { success: false, msg: error.message || "Blog eklenemedi" },
+      { status: 500 }
+    );
+  }
 }
 
 // Creating API Endpoint to Delete Blog
 export async function DELETE(request) {
-  const id = await request.nextUrl.searchParams.get("id");
-  const blog = await BlogModel.findById(id);
-  fs.unlink(`./public${blog.image}`, () => {});
-  await BlogModel.findByIdAndDelete(id);
-  return NextResponse.json({ msg: "Blog Deleted" });
+  try {
+    const id = request.nextUrl.searchParams.get("id");
+    await BlogModel.findByIdAndDelete(id);
+
+    return NextResponse.json({ success: true, msg: "Blog Deleted" });
+  } catch (error) {
+    console.error("DELETE /api/blog error:", error);
+    return NextResponse.json(
+      { success: false, msg: "Blog silinemedi" },
+      { status: 500 }
+    );
+  }
 }

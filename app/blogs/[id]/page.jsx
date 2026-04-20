@@ -78,8 +78,8 @@ const page = ({ params }) => {
             <div className="mt-8">
               <Image
                 src={data.image}
-                width={1000}
-                height={600}
+                width={600}
+                height={400}
                 alt=""
                 className="w-full h-auto"
                 priority
@@ -88,18 +88,35 @@ const page = ({ params }) => {
           )}
 
           {/* content */}
-          <div
-            className="blog-content mt-8"
-            dangerouslySetInnerHTML={{ __html: data.description }}
-          />
+   <div className="blog-content mt-8 text-[18px] leading-8">
+  {data.description?.split("\n").map((line, i) => (
+    <span key={i}>
+      {line}
+      <br />
+    </span>
+  ))}
+</div>
 
           {/* local styles for raw HTML */}
           <style jsx>{`
-            .blog-content {
-              color: #262626;
-              font-size: 16px;
-              line-height: 1.75;
-            }
+           
+.blog-content {
+  color: #1f1f1f;
+  font-size: 18px;
+  line-height: 1.9;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+}
+
+.blog-content span {
+  display: block;
+  margin-bottom: 14px;
+}
+
+.blog-content p {
+  margin-bottom: 20px;
+}
+
             .blog-content p {
               margin: 1rem 0;
             }

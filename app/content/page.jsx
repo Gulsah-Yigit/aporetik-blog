@@ -1,4 +1,3 @@
-// app/yazilar/page.jsx  (veya bu sayfanın dosyası)
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -24,14 +23,18 @@ function formatDate(d) {
   }
 }
 
-const page = () => {
+const Page = () => {
   const [menu, setMenu] = useState("Hepsi");
   const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
     (async () => {
-      const res = await axios.get("/api/blog");
-      setBlogs(res.data.blogs || []);
+      try {
+        const res = await axios.get("/api/blog");
+        setBlogs(res.data.blogs || []);
+      } catch (error) {
+        console.error("Bloglar alınamadı:", error);
+      }
     })();
   }, []);
 
@@ -46,7 +49,6 @@ const page = () => {
 
       <section className="section-fade">
         <div className="mx-auto max-w-6xl px-4 lg:px-0">
-          {/* Filtreler */}
           <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 my-6">
             {FILTERS.map((f) => (
               <button
@@ -61,31 +63,39 @@ const page = () => {
             ))}
           </div>
 
-          {/* Kart Grid (Wix benzeri) */}
           <div className="grid gap-8 md:grid-cols-2 mb-16">
             {filtered.map((item) => {
               const prettyDate = item.date ? formatDate(item.date) : null;
+
+              const cleanDescription =
+                typeof item.description === "string"
+                  ? item.description.replace(/<[^>]*>/g, "").trim()
+                  : "";
+
               return (
                 <article
                   key={item._id}
                   className="border border-black/10 rounded-xl overflow-hidden bg-white hover:shadow-[0_6px_0_#00000012] transition-shadow"
                 >
-                  {/* Üstte geniş görsel */}
                   <Link href={`/blogs/${item._id}`} className="block">
-                    <div className="relative w-full aspect-[16/9]">
-                      <Image
-                        src={item.image}
-                        alt={item.title || "cover"}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                      />
+                    <div className="relative w-full aspect-[16/9] bg-gray-100">
+                      {item.image ? (
+                        <Image
+                          src={item.image}
+                          alt={item.title || "cover"}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-sm text-gray-400">
+                          Görsel yok
+                        </div>
+                      )}
                     </div>
                   </Link>
 
-                  {/* İçerik */}
                   <div className="p-5 sm:p-6">
-                    {/* meta: tarih • süre • kategori rozeti */}
                     {(prettyDate || item.readTime || item.category) && (
                       <div className="flex items-center gap-2 text-xs text-neutral-500 mb-2 flex-wrap">
                         {prettyDate && <span>{prettyDate}</span>}
@@ -108,19 +118,15 @@ const page = () => {
                       </h2>
                     </Link>
 
-                    {item.description && (
-                      <p className="mt-3 text-[15px] leading-7 text-neutral-700 line-clamp-3">
-                        {/* HTML geliyorsa slice yerine düz metin göstermek daha güvenli; istersen sanitize et */}
-                        {typeof item.description === "string"
-                          ? item.description
-                              .replace(/<[^>]*>/g, "")
-                              .slice(0, 180)
-                          : ""}
+                    {cleanDescription && (
+                      <p className="mt-3 text-[15px] leading-7 text-neutral-700 whitespace-pre-line line-clamp-4">
+                        {cleanDescription.slice(0, 220)}
+                        {cleanDescription.length > 220 ? "..." : ""}
                       </p>
                     )}
 
-                    {/* İnce ayraç + alt meta (opsiyonel) */}
                     <hr className="border-t border-black/10 my-3" />
+
                     <div className="flex items-center text-xs text-neutral-500">
                       <span>0 views</span>
                       <span className="mx-4">0 comments</span>
@@ -150,4 +156,5 @@ const page = () => {
     </div>
   );
 };
-export default page;
+
+export default Page;
