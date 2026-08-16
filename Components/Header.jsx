@@ -20,37 +20,31 @@ export const inter = Inter({
 export default function Header() {
   return (
     <header className="bg-[#fbfaf6] pt-5 sm:pt-7">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-[1fr_auto_1fr] items-start gap-3">
-          <Link href="/" className="justify-self-start" aria-label="Aporetik ana sayfa">
+      <div className="mx-auto max-w-[1380px] px-5 sm:px-8 lg:px-10">
+        <div className={`${inter.className} flex items-center justify-between border-b border-black/10 pb-3 text-[9px] uppercase tracking-[.2em] text-black/45 sm:text-[10px]`}>
+          <span>Bağımsız yayın · İstanbul</span>
+          <span className="hidden sm:block">Sinema · Edebiyat · Kültür · Fikir</span>
+          <span>2026</span>
+        </div>
+
+        <div className="relative flex min-h-[118px] items-end justify-center pb-4 pt-7 sm:min-h-[156px] sm:pb-6 sm:pt-8 lg:min-h-[188px]">
+          <Link href="/" className="relative inline-flex items-end" aria-label="Aporetik ana sayfa">
             <Image
               src={assets.logo}
-              width={82}
-              height={82}
-              alt="Aporetik logo"
-              className="h-auto w-[58px] sm:w-[72px] object-contain"
+              width={72}
+              height={72}
+              alt="Aporetik ördek logosu"
+              className="absolute -left-7 -top-3 h-auto w-[42px] object-contain sm:-left-10 sm:-top-5 sm:w-[54px] lg:-left-12 lg:-top-7 lg:w-[64px]"
               priority
             />
+            <span className={`${playfair.className} block text-[clamp(4.1rem,12.2vw,10.5rem)] font-black leading-[.72] tracking-[-.075em] text-[#171717]`}>
+              aporetik.
+            </span>
           </Link>
 
-          <div className="pt-2 text-center sm:pt-0">
-            <Link href="/" className="inline-block">
-              <span
-                className={`${playfair.className} block text-[clamp(3.1rem,9vw,8.7rem)] font-black leading-[.78] tracking-[-0.065em] text-[#1a1a1a]`}
-              >
-                aporetik.
-              </span>
-            </Link>
-            <p className={`${inter.className} mt-3 hidden text-[10px] uppercase tracking-[0.28em] text-black/42 sm:block`}>
-              sinema · kültür · fikir · merak
-            </p>
-          </div>
-
-          <div className={`${inter.className} justify-self-end pt-1 text-right`}>
-            <p className="hidden max-w-[190px] text-[11px] leading-5 text-black/45 md:block">
-              Dünyaya biraz daha uzun bakmak için bağımsız notlar.
-            </p>
-          </div>
+          <p className={`${inter.className} absolute bottom-1 right-0 hidden max-w-[220px] text-right text-[10px] leading-4 tracking-[.04em] text-black/40 lg:block`}>
+            Dünyaya biraz daha uzun bakmak için notlar, filmler, kitaplar ve sorular.
+          </p>
         </div>
       </div>
     </header>
