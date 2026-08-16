@@ -1,4 +1,4 @@
-import { Nunito, Anton } from "next/font/google";
+import { Nunito } from "next/font/google";
 import "./globals.css";
 
 const nunito = Nunito({
@@ -6,33 +6,28 @@ const nunito = Nunito({
   weight: ["200", "400", "600"],
 });
 
-const anton = Anton({
-  subsets: ["latin"],
-  weight: ["400"],
-});
-
 export const metadata = {
   title: {
     default: "Aporetik",
     template: "%s | Aporetik",
   },
-  description: "Kültür, sinema ve edebiyat üzerine bir blog.",
-  keywords: ["kültür", "sinema", "edebiyat", "blog", "aporetik"],
+  description: "Sinema, edebiyat, kültür, gündelik hayat ve akılda kalan sorular üzerine bağımsız bir yayın.",
+  keywords: ["aporetik", "sinema", "kültür", "edebiyat", "uzun okuma", "fikir"],
   metadataBase: new URL("https://aporetik.com"),
   alternates: {
     canonical: "https://aporetik.com",
   },
   openGraph: {
     title: "Aporetik",
-    description: "Kültür, sinema ve edebiyat üzerine bir blog.",
+    description: "Sinema, edebiyat, kültür ve fikir üzerine bağımsız bir yayın.",
     url: "https://aporetik.com",
     siteName: "Aporetik",
     images: [
       {
-        url: "/og-image.png", // senin ekleyeceğin görsel
+        url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Aporetik Blog",
+        alt: "Aporetik",
       },
     ],
     locale: "tr_TR",
@@ -41,9 +36,8 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Aporetik",
-    description: "Kültür, sinema ve edebiyat üzerine bir blog.",
+    description: "Sinema, edebiyat, kültür ve fikir üzerine bağımsız bir yayın.",
     images: ["/og-image.png"],
-    creator: "@senintwitterkullanicin", // varsa Twitter adın
   },
   robots: {
     index: true,
@@ -53,7 +47,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="tr">
       <head>
         <script
           type="application/ld+json"
@@ -63,12 +57,12 @@ export default function RootLayout({ children }) {
               "@type": "Blog",
               name: "Aporetik",
               url: "https://aporetik.com",
-              description: "Kültür, sinema ve edebiyat üzerine bir blog.",
+              description: "Sinema, edebiyat, kültür ve fikir üzerine bağımsız bir yayın.",
             }),
           }}
         />
       </head>
-      <body className={`${nunito.className} bg-[var(--page-bg)]  antialiased`}>
+      <body className={`${nunito.className} bg-[#fbfaf6] text-[#171717] antialiased`}>
         {children}
       </body>
     </html>
