@@ -4,47 +4,60 @@ import { assets } from "@/Assets/assets";
 import Image from "next/image";
 import Link from "next/link";
 import { Playfair_Display, Inter } from "next/font/google";
+import { FiSearch, FiSun } from "react-icons/fi";
 
-export const playfair = Playfair_Display({
+const playfair = Playfair_Display({
   subsets: ["latin"],
   weight: ["700", "800", "900"],
   display: "swap",
 });
 
-export const inter = Inter({
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 
 export default function Header() {
   return (
-    <header className="bg-[#fbfaf6] pt-5 sm:pt-7">
-      <div className="mx-auto max-w-[1380px] px-5 sm:px-8 lg:px-10">
-        <div className={`${inter.className} flex items-center justify-between border-b border-black/10 pb-3 text-[9px] uppercase tracking-[.2em] text-black/45 sm:text-[10px]`}>
-          <span>Bağımsız yayın · İstanbul</span>
-          <span className="hidden sm:block">Sinema · Edebiyat · Kültür · Fikir</span>
-          <span>2026</span>
+    <header className="bg-[#fbfaf6] text-[#161616]">
+      <div className="mx-auto max-w-[1500px] px-5 sm:px-8 lg:px-10">
+        <div className={`${inter.className} flex min-h-[66px] items-center justify-between border-b border-black/25 text-[11px]`}>
+          <div className="flex items-center gap-5">
+            <Link href="/" aria-label="Aporetik ana sayfa" className="shrink-0">
+              <Image
+                src={assets.logo}
+                width={52}
+                height={52}
+                alt="Aporetik ördek logosu"
+                className="h-[46px] w-[46px] object-contain"
+                priority
+              />
+            </Link>
+            <span className="hidden h-8 w-px bg-black/30 sm:block" />
+            <span className="hidden sm:block">24 Mayıs 2024 Cuma</span>
+          </div>
+
+          <div className="flex items-center gap-5 sm:gap-7">
+            <button className="hidden items-center gap-2 sm:flex" aria-label="Ara">
+              <FiSearch className="h-4 w-4" />
+              <span>Ara</span>
+            </button>
+            <button className="hidden items-center gap-2 md:flex" aria-label="Karanlık mod">
+              <FiSun className="h-4 w-4" />
+              <span>Karanlık Mod</span>
+            </button>
+            <button className="rounded-[3px] bg-black px-7 py-3 text-white">Üye Ol</button>
+            <button className="hidden sm:block">Giriş Yap</button>
+          </div>
         </div>
 
-        <div className="relative flex min-h-[118px] items-end justify-center pb-4 pt-7 sm:min-h-[156px] sm:pb-6 sm:pt-8 lg:min-h-[188px]">
-          <Link href="/" className="relative inline-flex items-end" aria-label="Aporetik ana sayfa">
-            <Image
-              src={assets.logo}
-              width={72}
-              height={72}
-              alt="Aporetik ördek logosu"
-              className="absolute -left-7 -top-3 h-auto w-[42px] object-contain sm:-left-10 sm:-top-5 sm:w-[54px] lg:-left-12 lg:-top-7 lg:w-[64px]"
-              priority
-            />
-            <span className={`${playfair.className} block text-[clamp(4.1rem,12.2vw,10.5rem)] font-black leading-[.72] tracking-[-.075em] text-[#171717]`}>
-              aporetik.
+        <div className="border-b border-black/25 py-7 text-center sm:py-9">
+          <Link href="/" className="inline-block">
+            <span className={`${playfair.className} text-[clamp(4.7rem,11vw,9.8rem)] font-black leading-[.72] tracking-[-.065em]`}>
+              aporetik<span className="text-[#efb53d]">.</span>
             </span>
           </Link>
-
-          <p className={`${inter.className} absolute bottom-1 right-0 hidden max-w-[220px] text-right text-[10px] leading-4 tracking-[.04em] text-black/40 lg:block`}>
-            Dünyaya biraz daha uzun bakmak için notlar, filmler, kitaplar ve sorular.
-          </p>
         </div>
       </div>
     </header>
