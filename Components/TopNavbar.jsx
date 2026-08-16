@@ -1,25 +1,17 @@
-// components/TopNavbar.jsx
 "use client";
 
-import { SiInstagram, SiX } from "react-icons/si";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Inter, Nunito } from "next/font/google";
+import { SiInstagram, SiX } from "react-icons/si";
+import { Inter } from "next/font/google";
 
-export const inter = Inter({
-  subsets: ["latin"],
-  weight: ["300", "400", "500"],
-  display: "swap",
-});
-
-const nunito = Nunito({
-  subsets: ["latin"],
-  weight: ["200", "400", "600"],
-});
+const inter = Inter({ subsets: ["latin"], weight: ["400", "500", "600"] });
 
 const NAV_ITEMS = [
   { label: "Anasayfa", href: "/" },
   { label: "Yazılar", href: "/content" },
+  { label: "Uzun Okuma", href: "/content" },
+  { label: "Yolda", href: "/content" },
   { label: "İletişim", href: "/contact" },
 ];
 
@@ -27,42 +19,19 @@ export default function TopNavbar() {
   const pathname = usePathname();
 
   return (
-    <nav className={`w-full mt-8 mb- ${inter.className} antialiased`}>
-      {/* üst çizgi (istersen kaldır) */}
-      <div className="h-px bg-black/10" />
-
-      <div className="mx-auto max-w-6xl px-4">
-        {/* 3 kolon: [hayalet] [ORTA MENÜ] [ikonlar] => menü tam ortada */}
-        <div className="grid grid-cols-[1fr_auto_1fr] items-center py-1.5">
-          {/* solda görünmez kopya -> tam ortalama */}
-          <div className="justify-self-start opacity-0 pointer-events-none select-none">
-            <div className="flex items-center gap-4">
-              <SiInstagram className="w-5 h-5" />
-              <SiX className="w-5 h-5" />
-            </div>
-          </div>
-
-          {/* ORTA MENÜ */}
-          <ul className="justify-self-center flex items-center gap-3 sm:gap-5">
+    <nav className={`${inter.className} sticky top-0 z-40 mt-6 border-y border-black/10 bg-[#fbfaf6]/95 backdrop-blur`}>
+      <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
+        <div className="min-w-0 flex-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <ul className="flex min-w-max items-center gap-5 sm:gap-7">
             {NAV_ITEMS.map((item) => {
-              const isActive =
-                item.href === "/"
-                  ? pathname === "/"
-                  : pathname?.startsWith(item.href);
+              const active = item.href === "/" ? pathname === "/" : pathname?.startsWith(item.href);
               return (
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    aria-current={isActive ? "page" : undefined}
-                    className={`${inter.className}
-                                align-baseline text-[10px] sm:text-xs md:text-sm
-                                font-normal tracking-[0.2em] text-black/60
-                      ${
-                        isActive
-                          ? "text-black font-xl"
-                          : "text-[#444444] hover:text-black"
-                      }
-                    `}
+                    className={`text-[11px] uppercase tracking-[0.18em] transition ${
+                      active ? "font-semibold text-black" : "text-black/55 hover:text-black"
+                    }`}
                   >
                     {item.label}
                   </Link>
@@ -70,29 +39,17 @@ export default function TopNavbar() {
               );
             })}
           </ul>
+        </div>
 
-          {/* SAĞ İKONLAR */}
-          <div className="justify-self-end flex items-center gap-4">
-            <a
-              href="#"
-              aria-label="Instagram"
-              className="text-[#444444] hover:text-black"
-            >
-              <SiInstagram className="w-5 h-5" />
-            </a>
-            <a
-              href="#"
-              aria-label="Twitter/X"
-              className="text-[#444444] hover:text-black"
-            >
-              <SiX className="w-5 h-5" />
-            </a>
-          </div>
+        <div className="flex shrink-0 items-center gap-3 border-l border-black/10 pl-4">
+          <a href="#" aria-label="Instagram" className="text-black/55 transition hover:text-black">
+            <SiInstagram className="h-4 w-4" />
+          </a>
+          <a href="#" aria-label="X" className="text-black/55 transition hover:text-black">
+            <SiX className="h-4 w-4" />
+          </a>
         </div>
       </div>
-
-      {/* alt çizgi (istersen kaldır) */}
-      <div className="h-px bg-black/10" />
     </nav>
   );
 }

@@ -1,7 +1,6 @@
 "use client";
 
-import BlogList from "@/Components/BlogList";
-import FeaturedGridFetcher from "@/Components/FeaturedGridFetcher";
+import EditorialHome from "@/Components/EditorialHome";
 import Footer from "@/Components/Footer";
 import Header from "@/Components/Header";
 import TopNavbar from "@/Components/TopNavbar";
@@ -14,8 +13,7 @@ export default function Home() {
       <ToastContainer theme="dark" />
       <Header />
       <TopNavbar />
-      <FeaturedGridFetcher />
-      <BlogList />
+      <EditorialHome />
       <Footer />
     </>
   );
