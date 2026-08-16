@@ -1,0 +1,23 @@
+/* Reference homepage finishing touches */
+[class*="readerSilhouette"] {
+  width: 310px !important;
+  height: 195px !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  color: transparent !important;
+  transform: none !important;
+  background: url('/reference/reader-woman.jpg') center bottom / contain no-repeat !important;
+}
+
+[class*="supportArt"] [class*="yellowDisc"] {
+  display: none !important;
+}
+
+@media (max-width: 640px) {
+  [class*="readerSilhouette"] {
+    width: 280px !important;
+    height: 176px !important;
+  }
+}
