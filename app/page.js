@@ -1,20 +1,5 @@
-"use client";
-
-import EditorialHome from "@/Components/EditorialHome";
-import Footer from "@/Components/Footer";
-import Header from "@/Components/Header";
-import TopNavbar from "@/Components/TopNavbar";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import ReferenceHome from "@/Components/ReferenceHome";
 
 export default function Home() {
-  return (
-    <>
-      <ToastContainer theme="dark" />
-      <Header />
-      <TopNavbar />
-      <EditorialHome />
-      <Footer />
-    </>
-  );
+  return <ReferenceHome />;
 }
