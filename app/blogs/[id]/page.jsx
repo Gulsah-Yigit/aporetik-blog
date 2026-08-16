@@ -1,189 +1,136 @@
 "use client";
-import { assets, blog_data } from "@/Assets/assets";
+
 import Footer from "@/Components/Footer";
 import Header from "@/Components/Header";
 import TopNavbar from "@/Components/TopNavbar";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-const page = ({ params }) => {
+function formatDate(value) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  return date.toLocaleDateString("tr-TR", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+}
+
+function calcReadingTime(text = "") {
+  const clean = text.replace(/<[^>]+>/g, " ");
+  const words = clean.trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / 200));
+}
+
+export default function BlogDetailPage({ params }) {
   const [data, setData] = useState(null);
 
-  const fetchBlogData = async () => {
-    const response = await axios.get("/api/blog", {
-      params: {
-        id: params.id,
-      },
-    });
-    setData(response.data);
-  };
-
   useEffect(() => {
-    fetchBlogData();
-  }, []);
+    const fetchBlog = async () => {
+      try {
+        const response = await axios.get("/api/blog", { params: { id: params.id } });
+        setData(response.data);
+      } catch (error) {
+        console.error("blog detail fetch:", error);
+      }
+    };
 
-  // tarih biçimleyici
-  function formatDate(d) {
-    if (!d) return "";
-    const dt = new Date(d);
-    if (isNaN(dt)) return "";
-    return dt.toLocaleDateString("tr-TR", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-  }
+    fetchBlog();
+  }, [params.id]);
 
-  // okuma süresi (dakika)
-  function calcReadingTime(html = "") {
-    // basitçe HTML etiketlerini ayıkla ve 200 wpm kabul et
-    const text = html.replace(/<[^>]+>/g, " ");
-    const words = text.trim().split(/\s+/).filter(Boolean).length;
-    return Math.max(1, Math.round(words / 200));
-  }
+  if (!data) return null;
 
-  return data ? (
+  return (
     <>
-      {/* Yeni eklediklerimiz */}
       <Header />
       <TopNavbar />
 
-      <div className="min-h-[60vh] bg-neutral-100/80 py-12">
-        <article className="mx-auto max-w-3xl bg-white border border-neutral-300 shadow-sm rounded-sm px-6 sm:px-10 py-10 sm:py-12">
-          {/* meta */}
-          <div className="flex items-center justify-between text-sm text-neutral-500">
-            <span>
-              {formatDate(data?.createdAt || data?.date) || "—"}
-              {" · "}
-              {calcReadingTime(data?.description)} dk okuma
-            </span>
-          </div>
-
-          {/* title */}
-          <h1 className="mt-6 text-3xl sm:text-[34px] leading-tight font-semibold tracking-tight text-neutral-900">
-            {data.title}
-          </h1>
-
-          {/* subtitle (optional) */}
-          {data?.subtitle && (
-            <p className="mt-4 text-[15px] sm:text-base text-neutral-600">
-              {data.subtitle}
-            </p>
-          )}
-
-          {/* hero image */}
-          {data?.image && (
-            <div className="mt-8">
-              <Image
-                src={data.image}
-                width={600}
-                height={400}
-                alt=""
-                className="w-full h-auto"
-                priority
-              />
+      <main className="bg-[#fbfaf6]">
+        <article>
+          <header className="mx-auto max-w-5xl px-4 pb-10 pt-14 text-center sm:px-6 lg:px-8 lg:pt-20">
+            <div className="mx-auto flex w-fit items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-black/45">
+              <span>{data.category || "Aporetik"}</span>
+              <span>•</span>
+              <span>{formatDate(data.createdAt || data.date)}</span>
+              <span>•</span>
+              <span>{calcReadingTime(data.description)} dk</span>
             </div>
-          )}
 
-          {/* content */}
-   <div className="blog-content mt-8 text-[18px] leading-8">
-  {data.description?.split("\n").map((line, i) => (
-    <span key={i}>
-      {line}
-      <br />
-    </span>
-  ))}
-</div>
+            <h1 className="mx-auto mt-5 max-w-4xl font-serif text-[clamp(2.7rem,7vw,6rem)] leading-[.98] tracking-[-0.045em] text-[#171717]">
+              {data.title}
+            </h1>
 
-          {/* local styles for raw HTML */}
-          <style jsx>{`
-           
-.blog-content {
-  color: #1f1f1f;
-  font-size: 18px;
-  line-height: 1.9;
-  font-weight: 400;
-  letter-spacing: 0.2px;
-}
+            {data.subtitle ? (
+              <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-black/55 sm:text-lg">
+                {data.subtitle}
+              </p>
+            ) : null}
+          </header>
 
-.blog-content span {
-  display: block;
-  margin-bottom: 14px;
-}
-
-.blog-content p {
-  margin-bottom: 20px;
-}
-
-            .blog-content p {
-              margin: 1rem 0;
-            }
-            .blog-content h2 {
-              margin: 2rem 0 0.75rem;
-              font-weight: 600;
-              font-size: 1.375rem;
-            }
-            .blog-content h3 {
-              margin: 1.5rem 0 0.5rem;
-              font-weight: 600;
-              font-size: 1.125rem;
-            }
-            .blog-content a {
-              color: #2563eb;
-              text-decoration: underline;
-            }
-            .blog-content ul,
-            .blog-content ol {
-              padding-left: 1.25rem;
-              margin: 0.75rem 0;
-            }
-            .blog-content blockquote {
-              margin: 1.25rem 0;
-              padding: 0.75rem 1rem;
-              border-left: 4px solid #8b5cf6;
-              background: #fafafa;
-              font-style: italic;
-              color: #404040;
-            }
-            .blog-content img {
-              max-width: 100%;
-              height: auto;
-              border-radius: 4px;
-            }
-          `}</style>
-          {/* Etiketler */}
-          {data?.tags?.length > 0 && (
-            <div className="mt-12">
-              <div className="flex flex-wrap gap-2">
-                {data.tags.map((tag, i) => (
-                  <Link
-                    key={i}
-                    href={`/tag/${tag}`}
-                    className="px-3 py-1 bg-gray-200 text-sm rounded-full hover:bg-gray-300 transition"
-                  >
-                    #{tag}
-                  </Link>
-                ))}
+          {data.image ? (
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+              <div className="relative aspect-[16/8.3] overflow-hidden rounded-[2rem] bg-black/5">
+                <Image
+                  src={data.image}
+                  alt={data.title || "Aporetik yazısı"}
+                  fill
+                  priority
+                  sizes="(max-width:1280px) 100vw, 1280px"
+                  className="object-cover"
+                />
               </div>
             </div>
-          )}
+          ) : null}
 
-          <div className="mt-12 text-center">
-            <Link
-              href="/"
-              className="inline-block px-6 py-2 bg-[#444444] text-white rounded hover:bg-gray-800 transition"
-            >
-              ← Geri Dön
-            </Link>
+          <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[180px_minmax(0,720px)_1fr] lg:px-8 lg:py-16">
+            <aside className="hidden lg:block">
+              <div className="sticky top-24 border-t border-black pt-4">
+                <p className="text-[10px] uppercase tracking-[0.2em] text-black/40">Yazı hakkında</p>
+                <p className="mt-3 text-sm leading-6 text-black/55">{data.category || "Aporetik"}</p>
+                <Link href="/content" className="mt-5 inline-block text-xs underline decoration-black/25 underline-offset-4">Tüm yazılar</Link>
+              </div>
+            </aside>
+
+            <div className="min-w-0">
+              <div className="blog-content font-serif text-[19px] leading-[1.9] text-[#222] sm:text-[21px]">
+                {data.description?.split("\n").map((line, index) => {
+                  if (!line.trim()) return <div key={index} className="h-3" />;
+                  return <p key={index}>{line}</p>;
+                })}
+              </div>
+
+              {data?.tags?.length > 0 ? (
+                <div className="mt-12 flex flex-wrap gap-2 border-t border-black/10 pt-6">
+                  {data.tags.map((tag, index) => (
+                    <span key={index} className="rounded-full border border-black/15 px-3 py-1.5 text-xs text-black/55">
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              ) : null}
+
+              <div className="mt-14 border-y border-black/10 py-8">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-black/40">Devam etmek için</p>
+                <Link href="/content" className="mt-2 inline-block font-serif text-3xl underline decoration-black/15 underline-offset-8">
+                  Başka bir yazıya geç →
+                </Link>
+              </div>
+            </div>
+
+            <aside className="hidden xl:block">
+              <div className="sticky top-24 rounded-[1.6rem] bg-[#f1ecdf] p-5">
+                <p className="text-[10px] uppercase tracking-[0.2em] text-black/40">Aporetik notu</p>
+                <p className="mt-3 font-serif text-xl leading-snug">Bir yazı bitince başka bir sorunun başladığı yer.</p>
+              </div>
+            </aside>
           </div>
         </article>
-      </div>
+      </main>
 
       <Footer />
     </>
-  ) : null;
-};
-
-export default page;
+  );
+}
