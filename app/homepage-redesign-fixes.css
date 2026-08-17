@@ -12,9 +12,35 @@
   overflow: hidden;
 }
 
+/* Slightly larger top-left logo. */
+img[alt="Aporetik logo"] {
+  width: 56px !important;
+  height: 56px !important;
+  object-fit: contain !important;
+}
+
+/* Keep the footer mark square and undistorted. */
+footer img[alt="Aporetik"] {
+  width: 46px !important;
+  height: 46px !important;
+  object-fit: contain !important;
+  flex: 0 0 46px;
+}
+
 @media (max-width: 640px) {
   [class*="heroCopy"] > p {
     -webkit-line-clamp: 4;
     max-height: 6.2em;
+  }
+
+  img[alt="Aporetik logo"] {
+    width: 52px !important;
+    height: 52px !important;
+  }
+
+  footer img[alt="Aporetik"] {
+    width: 42px !important;
+    height: 42px !important;
+    flex-basis: 42px;
   }
 }
