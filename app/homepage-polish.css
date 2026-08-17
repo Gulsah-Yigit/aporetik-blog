@@ -1,0 +1,113 @@
+/* Final homepage visual polish. Scoped via CSS-module class-name fragments. */
+
+/* Give the top mark enough physical room, then enlarge the visible artwork itself.
+   The source logo contains internal transparent breathing space, so wrapper-only sizing
+   does not make the mark look larger. */
+[class*="utilityBar"] {
+  min-height: 76px !important;
+  height: 76px !important;
+  overflow: visible !important;
+}
+
+[class*="topLogoWrap"] {
+  width: 64px !important;
+  height: 64px !important;
+  flex: 0 0 64px !important;
+  overflow: visible !important;
+}
+
+[class*="topLogoWrap"] [class*="logoImage"] {
+  object-fit: contain !important;
+  transform: scale(1.28) !important;
+  transform-origin: center !important;
+}
+
+/* Footer: keep the source proportions and compensate for the same internal whitespace. */
+[class*="footerLogoWrap"] {
+  width: 52px !important;
+  height: 52px !important;
+  flex: 0 0 52px !important;
+  overflow: visible !important;
+}
+
+[class*="footerLogoWrap"] [class*="logoImage"] {
+  object-fit: contain !important;
+  transform: scale(1.18) !important;
+  transform-origin: center !important;
+}
+
+/* Replace the temporary geometric reader drawing with the refined back-view line art. */
+[class*="support"] {
+  min-height: 285px !important;
+  overflow: hidden !important;
+  position: relative !important;
+}
+
+[class*="support"] > h2,
+[class*="support"] > p,
+[class*="support"] > button {
+  position: relative !important;
+  z-index: 3 !important;
+}
+
+[class*="supportArt"] {
+  position: absolute !important;
+  width: 72% !important;
+  height: 245px !important;
+  right: -8px !important;
+  bottom: 0 !important;
+  background: url('/reader-back.svg') right bottom / contain no-repeat !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+[class*="supportArt"] img,
+[class*="supportArt"] [class*="readerIllustration"] {
+  display: none !important;
+}
+
+@media (max-width: 900px) {
+  [class*="support"] {
+    min-height: 320px !important;
+  }
+
+  [class*="supportArt"] {
+    width: 58% !important;
+    height: 285px !important;
+    right: -5px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  [class*="utilityBar"] {
+    min-height: 68px !important;
+    height: auto !important;
+  }
+
+  [class*="topLogoWrap"] {
+    width: 58px !important;
+    height: 58px !important;
+    flex-basis: 58px !important;
+  }
+
+  [class*="topLogoWrap"] [class*="logoImage"] {
+    transform: scale(1.22) !important;
+  }
+
+  [class*="support"] {
+    min-height: 370px !important;
+    padding-bottom: 215px !important;
+  }
+
+  [class*="supportArt"] {
+    width: 94% !important;
+    height: 255px !important;
+    right: -12px !important;
+  }
+
+  [class*="footerLogoWrap"] {
+    width: 48px !important;
+    height: 48px !important;
+    flex-basis: 48px !important;
+  }
+}
