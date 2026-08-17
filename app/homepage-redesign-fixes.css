@@ -1,0 +1,20 @@
+/* Keep long database descriptions from stretching the homepage hero. */
+[class*="heroCopy"] > p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
+  max-height: 7.75em;
+}
+
+[class*="heroCopy"] {
+  align-self: start;
+  overflow: hidden;
+}
+
+@media (max-width: 640px) {
+  [class*="heroCopy"] > p {
+    -webkit-line-clamp: 4;
+    max-height: 6.2em;
+  }
+}
