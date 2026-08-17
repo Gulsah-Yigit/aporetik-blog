@@ -1,117 +1,65 @@
+"use client";
+
 import { assets } from "@/Assets/assets";
 import Image from "next/image";
-import React, { useState } from "react";
-import { Bowlby_One_SC, Lora } from "next/font/google";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react"; // eğer yoksa ekle
-import { Playfair_Display } from "next/font/google";
-import { Inter } from "next/font/google"; // üst slogan için
+import Link from "next/link";
+import { Playfair_Display, Inter } from "next/font/google";
+import { FiSearch, FiSun } from "react-icons/fi";
 
-export const playfair = Playfair_Display({
+const playfair = Playfair_Display({
   subsets: ["latin"],
-  style: ["normal"],
-  weight: ["700", "800", "900"], // kalın varyantlar
+  weight: ["700", "800", "900"],
   display: "swap",
 });
 
-export const inter = Inter({
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["300", "400", "500"],
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 
-const bowlby = Bowlby_One_SC({
-  subsets: ["latin"],
-  weight: "400", // Bu font tek ağırlıkta geliyor
-});
-
-const loraItalic = Lora({
-  subsets: ["latin-ext"],
-  weight: "400",
-  style: "italic",
-});
-
-const Header = () => {
-  const [email, setEmail] = useState("");
-
-  //yeni
-  const [blogs, setBlogs] = useState([]);
-  const router = useRouter();
-
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const { data } = await axios.get("/api/blog");
-        setBlogs(data?.blogs || []);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchBlogs();
-  }, []);
-
-  const onSubmitHandler = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("email", email);
-    const response = await axios.post("/api/email", formData);
-    if (response.data.success) {
-      toast.success(response.data.msg);
-      setEmail("");
-    } else {
-      toast.error("Error");
-    }
-  };
-
-  //yeni
-  const handleRandomBlog = () => {
-    if (!blogs.length) return;
-    const random = blogs[Math.floor(Math.random() * blogs.length)];
-    if (random?._id) {
-      router.push(`/blogs/${random._id}`);
-    }
-  };
-
+export default function Header() {
   return (
-    <div className="pt-0 pb-3 px-5 md:px-12 lg:px-28">
-      <div className="flex justify-between items-center">
-        <Image
-          src={assets.logo}
-          width={120}
-          alt=""
-          className="w-[130px] sm:w-auto"
-        />
-        <button
-          onClick={handleRandomBlog}
-          disabled={!blogs.length}
-          className="flex items-center gap-2 font-medium py-1 px-3 sm:py-3 sm:px-6 border border-solid border-[#444444] shadow-[-7px_7px_0px_#444444] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
-        >
-          <p className="text-[#444444]">rastgele yazı </p>
-          <Image src={assets.arrow} alt="ok" />
-        </button>
-      </div>
+    <header className="bg-[#fbfaf6] text-[#161616]">
+      <div className="mx-auto max-w-[1500px] px-5 sm:px-8 lg:px-10">
+        <div className={`${inter.className} flex min-h-[66px] items-center justify-between border-b border-black/25 text-[11px]`}>
+          <div className="flex items-center gap-5">
+            <Link href="/" aria-label="Aporetik ana sayfa" className="shrink-0">
+              <Image
+                src={assets.logo}
+                width={52}
+                height={52}
+                alt="Aporetik ördek logosu"
+                className="h-[46px] w-[46px] object-contain"
+                priority
+              />
+            </Link>
+            <span className="hidden h-8 w-px bg-black/30 sm:block" />
+            <span className="hidden sm:block">24 Mayıs 2024 Cuma</span>
+          </div>
 
-      {/* ↓ APORETİK başlığını yukarı taşıyan kısım */}
-      <div className="text-center -mt-4 sm:-mt-6 md:-mt-10 lg:-mt-12">
-        <h1
-          className={`${playfair.className}
-          font-black inline-flex items-baseline gap-2 whitespace-nowrap
-          text-[clamp(3.5rem,9vw,10rem)] leading-[0.95] tracking-[0.04em] text-[#444444]`}
-        >
-          APORETİK
-          <span
-            className={`${inter.className}
-            align-baseline text-[10px] sm:text-xs md:text-sm
-            font-normal tracking-[0.2em] text-black/60`}
-          >
-            bi' blog
-          </span>
-        </h1>
+          <div className="flex items-center gap-5 sm:gap-7">
+            <button className="hidden items-center gap-2 sm:flex" aria-label="Ara">
+              <FiSearch className="h-4 w-4" />
+              <span>Ara</span>
+            </button>
+            <button className="hidden items-center gap-2 md:flex" aria-label="Karanlık mod">
+              <FiSun className="h-4 w-4" />
+              <span>Karanlık Mod</span>
+            </button>
+            <button className="rounded-[3px] bg-black px-7 py-3 text-white">Üye Ol</button>
+            <button className="hidden sm:block">Giriş Yap</button>
+          </div>
+        </div>
+
+        <div className="border-b border-black/25 py-7 text-center sm:py-9">
+          <Link href="/" className="inline-block">
+            <span className={`${playfair.className} text-[clamp(4.7rem,11vw,9.8rem)] font-black leading-[.72] tracking-[-.065em]`}>
+              aporetik<span className="text-[#efb53d]">.</span>
+            </span>
+          </Link>
+        </div>
       </div>
-    </div>
+    </header>
   );
-};
-
-export default Header;
+}
