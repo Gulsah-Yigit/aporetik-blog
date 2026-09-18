@@ -119,3 +119,17 @@ footer[class*="footer"] a { font-size: 13px !important; }
 
 @media (max-width: 900px) { footer[class*="footer"] { padding: 48px 32px 36px !important; } }
 @media (max-width: 640px) { footer[class*="footer"] { padding: 42px 16px 30px !important; } }
+
+/* A monochrome, magazine-like image system across the editorial landing page. */
+[class*="heroImage"] img,
+[class*="sideThumb"] img,
+[class*="dossierCard"] img,
+[class*="latestImage"] img,
+[class*="pickRow"] img,
+[class*="podcastCard"] img {
+  filter: grayscale(1) contrast(1.12) brightness(.94);
+}
+
+/* Let the pale footer begin cleanly, without a dividing rule. */
+[class*="bottomEditorial"] { border-bottom: 0 !important; }
+footer[class*="footer"] { margin-top: 0 !important; }
