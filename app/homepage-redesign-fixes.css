@@ -105,3 +105,17 @@ footer[class*="footer"] a { color: #1d211d !important; }
 @media (max-width: 640px) {
   footer[class*="footer"] { min-height: 0 !important; padding: 70px 16px 34px !important; }
 }
+
+/* The reference uses a clean art-paper field, not a drop shadow. */
+footer[class*="footer"] {
+  min-height: 310px !important;
+  padding: 58px max(5vw, 46px) 38px !important;
+  background: #f8f9eb !important;
+  box-shadow: none !important;
+}
+footer[class*="footer"] [class*="footerBrand"] b { font-size: 30px !important; }
+footer[class*="footer"] [class*="footerBrand"] p { font-size: 12px !important; }
+footer[class*="footer"] a { font-size: 13px !important; }
+
+@media (max-width: 900px) { footer[class*="footer"] { padding: 48px 32px 36px !important; } }
+@media (max-width: 640px) { footer[class*="footer"] { padding: 42px 16px 30px !important; } }
