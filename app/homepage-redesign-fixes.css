@@ -77,3 +77,31 @@ footer[class*="footer"] [class*="copy"] { font-size: 12px !important; line-heigh
   footer[class*="footer"] { padding: 42px 0 32px !important; }
   footer[class*="footer"] [class*="footerBrand"] b { font-size: 30px !important; }
 }
+
+/* Saatchi reference: a pale art-paper footer that reaches the viewport edges. */
+footer[class*="footer"] {
+  position: relative;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  min-height: 410px !important;
+  padding: 112px max(5vw, 46px) 52px !important;
+  background: linear-gradient(180deg, #fbfaf6 0, #f8f9eb 72px, #f8f9eb 100%) !important;
+  color: #1d211d !important;
+  border-top: 0 !important;
+  box-shadow: inset 0 24px 28px -34px rgba(50, 57, 42, .55) !important;
+}
+
+footer[class*="footer"] [class*="footerBrand"] p,
+footer[class*="footer"] [class*="copy"] { color: #555b50 !important; }
+footer[class*="footer"] > div:not([class*="footerBrand"]) > b,
+footer[class*="footer"] a:hover,
+footer[class*="footer"] [class*="copy"] span { color: #6f765e !important; }
+footer[class*="footer"] a { color: #1d211d !important; }
+
+@media (max-width: 900px) {
+  footer[class*="footer"] { padding: 82px 32px 46px !important; }
+}
+@media (max-width: 640px) {
+  footer[class*="footer"] { min-height: 0 !important; padding: 70px 16px 34px !important; }
+}
