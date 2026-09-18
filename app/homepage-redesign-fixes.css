@@ -133,3 +133,12 @@ footer[class*="footer"] a { font-size: 13px !important; }
 /* Let the pale footer begin cleanly, without a dividing rule. */
 [class*="bottomEditorial"] { border-bottom: 0 !important; }
 footer[class*="footer"] { margin-top: 0 !important; }
+
+/* Replace the temporary support illustration with the editorial reader artwork. */
+[class*="supportArt"] > img { display: none !important; }
+[class*="supportArt"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/reader-coffee-v1.png") right bottom / contain no-repeat;
+}
