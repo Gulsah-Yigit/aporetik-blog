@@ -15,12 +15,12 @@ const img = (post) => post?.image || "/placeholder.jpg";
 const category = (post) => post?.category || "YAZI";
 function dateText(value){if(!value)return "";const d=new Date(value);if(Number.isNaN(d.getTime()))return "";return d.toLocaleDateString("tr-TR",{day:"numeric",month:"long",year:"numeric"});}
 const DEMO_POSTS = [
- { _id:"demo-1", title:"Bir Şehrin Hafızasında Yürümek", description:"İstanbul'un sokaklarında kaybolan ayrıntılar, gündelik ritüeller ve yeni bir bakışın imkânı.", category:"Şehir", author:"Gülşah Yiğit", image:"/1758056205690_street-city-evening-black-white-wallpaper-preview.jpg", createdAt:"2026-09-12" },
- { _id:"demo-2", title:"Yavaş Okumanın İmkânı", description:"Metinle kurduğumuz ilişkiye biraz daha dikkatle bakmak üzerine.", category:"Edebiyat", author:"Deniz Aydın", image:"/1758028987125_blog_pic_6.png", createdAt:"2026-09-10" },
- { _id:"demo-3", title:"Görüntünün Ardında Kalan", description:"Bir fotoğrafın taşıdığı sessizlik ve zaman duygusu.", category:"Sanat", author:"Ceren Kaya", image:"/1758056236235_black-and-white-1920x1080-21293.jpg", createdAt:"2026-09-08" },
- { _id:"demo-4", title:"Kıyıda Bir Gün", description:"Denizin, sesin ve beklemenin kısa bir kaydı.", category:"Yolda", author:"Gülşah Yiğit", image:"/1757020696587_blog_pic_2.png", createdAt:"2026-09-06" },
- { _id:"demo-5", title:"Rastlantının Estetiği", description:"Tesadüfleri izleyen sanatçılar ve açık uçlu üretimler.", category:"Uzun Okuma", author:"Ece Karaca", image:"/1758028487668_blog_pic_14.png", createdAt:"2026-09-04" },
- { _id:"demo-6", title:"Sinemada Gece", description:"Karanlığın hikâye anlatımındaki rolü üzerine notlar.", category:"Film", author:"Bora Demir", image:"/1758025756922_blog_pic_16.png", createdAt:"2026-09-02" }
+ { _id:"demo-1", title:"Müzenin Sessiz Odaları", description:"Sanat kitapları, arşivler ve araştırmanın yavaş ritmi üzerine bir not.", category:"Sanat", author:"Gülşah Yiğit", image:"https://media.mcachicago.org/image/IGI9OVZF/original.jpg", createdAt:"2026-09-12" },
+ { _id:"demo-2", title:"Okuma Biçimleri: Katalogdan Ekrana", description:"Kültür kurumlarının hafızası nasıl kurulur, nasıl paylaşılır?", category:"Edebiyat", author:"Deniz Aydın", image:"https://www.bellasartes.gob.ar/media/uploads/paginas/Biblioteca_JKP4Vc3.jpg", createdAt:"2026-09-10" },
+ { _id:"demo-3", title:"Meydanın Dili ve Yeni Kamusallık", description:"Sokakta, gazetede ve ekranda politik imgenin dolaşımı.", category:"Politika", author:"Ceren Kaya", image:"https://petapixel.com/assets/uploads/2019/03/26269919797_ee34f4abed_o-534x800.jpg", createdAt:"2026-09-08" },
+ { _id:"demo-4", title:"Arşivde Kaybolmak", description:"Bir koleksiyonun içindeki rastlantılar, dipnotlar ve yarım kalmış hikâyeler.", category:"Uzun Okuma", author:"Ece Karaca", image:"https://live.sitterwerk.ch/asset/563/6765/IMG_9016.jpg-preview1.jpg", createdAt:"2026-09-06" },
+ { _id:"demo-5", title:"Sanat Kitaplığının Politikası", description:"Kimin hikâyesi saklanır, hangi kitaplar rafın dışında kalır?", category:"Düşünce", author:"Bora Demir", image:"https://cdn.sanity.io/images/m2obzhc2/production/8f422e4de0e135ed1f68b79cf1a23818488fef7e-2500x1667.jpg", createdAt:"2026-09-04" },
+ { _id:"demo-6", title:"Görmenin Bir Biçimi Olarak Kütüphane", description:"Sergi kataloğundan araştırma masasına uzanan bir görsel kültür rotası.", category:"Kültür", author:"Mina Sarı", image:"https://www.lenbachhaus.de/fileadmin/_processed_/2/3/csm_2022_Bibliothek_029_6be15c75d6.jpg", createdAt:"2026-09-02" }
 ];
 
 export default function RedesignedHome(){
