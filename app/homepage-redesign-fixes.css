@@ -142,3 +142,20 @@ footer[class*="footer"] { margin-top: 0 !important; }
   inset: 0;
   background: url("/reader-coffee-v1.png") right bottom / contain no-repeat;
 }
+
+/* Final placement rules for the reader artwork and the masthead mark. */
+[class*="supportArt"] {
+  background: url("/reader-coffee-v1.png") right bottom / contain no-repeat !important;
+}
+[class*="supportArt"] img { display: none !important; }
+[class*="supportArt"]::after { display: none !important; }
+
+img[alt="Aporetik logo"] {
+  width: 84px !important;
+  height: 84px !important;
+  transform: scale(1.12);
+}
+
+@media (max-width: 640px) {
+  img[alt="Aporetik logo"] { width: 70px !important; height: 70px !important; }
+}
