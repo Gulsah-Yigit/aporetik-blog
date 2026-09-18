@@ -1,6 +1,9 @@
 import { ConnectDB } from "@/lib/config/db";
 import BlogModel from "@/lib/models/BlogModel";
 import { NextResponse } from "next/server";
+import { mkdir, writeFile } from "fs/promises";
+import path from "path";
+import { randomUUID } from "crypto";
 
 const loadDB = async () => {
   await ConnectDB();
@@ -33,6 +36,19 @@ export async function GET(request) {
 export async function POST(request) {
   try {
     const formData = await request.formData();
+    const imageFile = formData.get("image");
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+    if (!(imageFile instanceof File) || !allowedTypes.includes(imageFile.type)) {
+      return NextResponse.json({ success: false, msg: "JPG, PNG veya WebP görsel seçin" }, { status: 400 });
+    }
+    if (imageFile.size > 5 * 1024 * 1024) {
+      return NextResponse.json({ success: false, msg: "Görsel en fazla 5 MB olabilir" }, { status: 400 });
+    }
+    const extension = imageFile.type === "image/png" ? "png" : imageFile.type === "image/webp" ? "webp" : "jpg";
+    const uploadDirectory = path.join(process.cwd(), "public", "uploads");
+    await mkdir(uploadDirectory, { recursive: true });
+    const filename = `${randomUUID()}.${extension}`;
+    await writeFile(path.join(uploadDirectory, filename), Buffer.from(await imageFile.arrayBuffer()));
 
     const rawTags = formData.get("tags") || "";
     const tagsArray =
@@ -48,7 +64,7 @@ export async function POST(request) {
       description: `${formData.get("description")}`,
       category: `${formData.get("category")}`,
       author: `${formData.get("author")}`,
-      image: `${formData.get("image")}`,
+      image: `/uploads/${filename}`,
       authorImg: `${formData.get("authorImg")}`,
       tags: tagsArray,
     };
